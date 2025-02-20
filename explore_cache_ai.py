@@ -105,7 +105,7 @@ def hunt(start_page,end_page):
         temp_data = []
         print('harvesting page data..')
 
-        if recursions >= 3:
+        if recursions >= 2:
             recursions = 0
             heuristic_scores.sort(reverse=True,key = lambda data: data[1])
             #ai optimisation: it picks the best path to route on based on what it already explored.
