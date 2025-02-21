@@ -11,7 +11,9 @@ import asyncio
 
 from urllib.parse import quote as encode_url
 
-from ai_heuristic import score_word_similarity
+from ai_heuristic_gpt import score_word_similarity
+
+RECURSION_DEPTH = 1
 
 clientTimeout = aiohttp.ClientTimeout(total=60*60*60) #timeout of 1 hour
 
@@ -133,14 +135,14 @@ async def hunt(start_page,end_page,max_pages_to_check):
         # await asyncio.sleep(1)
         # print(data)
 
-        if recursions >= 2:
+        if recursions >= RECURSION_DEPTH:
             print('pruning')
             recursions = 0
             print(len(heuristic_scores))
             heuristic_scores.sort(reverse=True,key = lambda data: data[2])
             print('top survivor:',heuristic_scores[0][0],heuristic_scores[0][2])
             #ai optimisation: it picks the best path to route on based on what it already explored.
-            data = [pagedata[:-1] for pagedata in heuristic_scores[:10]]
+            data = [pagedata[:-1] for pagedata in heuristic_scores[:500]]
             heuristic_scores = []
 
         print(len(data))
@@ -171,7 +173,7 @@ async def hunt(start_page,end_page,max_pages_to_check):
 
 
 async def main():
-    print(await hunt('Associazione_Nazionale_Felina_Italiana','Lie',5000))
+    print(await hunt('Cloud','Sigmund_Freud',100))
 
 asyncio.run(main())
 

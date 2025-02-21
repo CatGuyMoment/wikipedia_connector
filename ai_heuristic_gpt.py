@@ -14,8 +14,13 @@ model.eval()
 
 embedding_layer = model.get_input_embeddings()
 
-def embed_word(word):
+saved_embeds = {
 
+
+}
+def embed_word(word):
+    if saved_embeds.get(word) != None:
+        return saved_embeds[word]
     token_ids = tokenizer.encode(word, add_prefix_space=True)
 
     token_tensor = torch.tensor(token_ids).to(device)
@@ -23,6 +28,9 @@ def embed_word(word):
 
     token_embeddings = embedding_layer(token_tensor) 
     word_embedding = torch.mean(token_embeddings, dim=0)
+
+    saved_embeds[word] = word_embedding
+
     return word_embedding
 
 def score_word_similarity(word1, word2):

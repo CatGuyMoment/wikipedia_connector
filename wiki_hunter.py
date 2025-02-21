@@ -151,7 +151,7 @@ async def hunt(start_page,end_page,max_pages_to_check):
 
 
 async def main():
-    print(await hunt('Associazione_Nazionale_Felina_Italiana','Institut_Florimont',5000))
+    print(await hunt('Train','Freedom_of_information_in_the_United_States',5000))
 
 asyncio.run(main())
 
